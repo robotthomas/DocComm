@@ -1,0 +1,6 @@
+var slackController = Botkit.slackbot();
+var slackBot = slackController.spawn({  token: YOUR_SLACK_TOKEN});
+var watsonMiddleware = require('botkit-middleware-watson')({  username: ff8107b7-18b2-48c1-a693-bbb26fdc79a0,  password: ohPZh2h2FpRG,  workspace_id: 9b6a8df7-6633-4966-a7dc-f80d3c969060,  version_date: '2017-05-26',  minimum_confidence: 0.50, // (Optional) Default is 0.75});
+slackController.middleware.receive.use(watsonMiddleware.receive);slackBot.startRTM();
+
+slackController.hears(['.*'], ['direct_message', 'direct_mention', 'mention'], function(bot, message) {  if (message.watsonError) {    bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");  } else {    bot.reply(message, message.watsonData.output.text.join('\n'));  }});
